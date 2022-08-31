@@ -1,0 +1,24 @@
+{
+  "name": "ringover-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harshitbhomawat/Ringover-app.git"
+  },
+  "author": "Harshit Singh <harshitbhomawat@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/harshitbhomawat/Ringover-app/issues"
+  },
+  "homepage": "https://github.com/harshitbhomawat/Ringover-app#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.19"
+  }
+}
