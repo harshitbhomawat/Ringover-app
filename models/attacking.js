@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     player_name: DataTypes.STRING,
     club: DataTypes.STRING,
     position: DataTypes.STRING,
-    asists: DataTypes.INTEGER,
+    assists: DataTypes.INTEGER,
     corner_taken: DataTypes.INTEGER,
     offsides: DataTypes.INTEGER,
     dribbles: DataTypes.INTEGER,

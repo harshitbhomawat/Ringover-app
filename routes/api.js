@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Player, Attacking, Attempts, Defending, Disciplinary, Distribution, GoalKeeping, Goals, KeyStats} = require('../models');
 const csvtojson = require('csvtojson');
+const { sendStatus } = require('express/lib/response');
 // const dataset = require('../datasets');
 
 router.get("/player",(req,res,next)=>{
@@ -9,31 +10,132 @@ router.get("/player",(req,res,next)=>{
 });
   
 router.post("/player",(req,res)=>{
-    Player.findOrCreate({
-        where: { first_name: 'Abhijeet' }, 
-        defaults: { first_name: 'Abhijeet', last_name: 'Singh', club: 'United' },
-    }).then((player, created) => {
-        if (created) {
-        res.json(created);
-        } else {
-        // can update the instance here
-        player.first_name = 'Abhijeet';
-        player.last_name = 'Singh';
-        player.club = 'India';
-        // player.save();
-        res.json(player);
+    // Player.destroy({
+    //     truncate: true
+    //   }).then(res.send("trincated"))
+    //   .catch(res.send("OOPs"));
+    (async ()=>{
+        var data = await Attacking.findAll();
+        for(var i=0;i<data.length;i++){
+            let name = data[i]["player_name"];
+            let [first_name, last_name] = name.split(' ');
+            let club = data[i]["club"];
+            if(last_name === undefined){
+                last_name="";
+            }
+            let [player, created] = await Player.findOrCreate({
+                where: { first_name: first_name, last_name: last_name, club:club },
+            });
         }
-    });
+
+        data = await Attempts.findAll();
+        for(var i=0;i<data.length;i++){
+            let name = data[i]["player_name"];
+            let [first_name, last_name] = name.split(' ');
+            let club = data[i]["club"];
+            if(last_name === undefined){
+                last_name="";
+            }
+            let [player, created] = await Player.findOrCreate({
+                where: { first_name: first_name, last_name: last_name, club:club },
+            });
+        }
+
+        data = await Defending.findAll();
+        for(var i=0;i<data.length;i++){
+            let name = data[i]["player_name"];
+            let [first_name, last_name] = name.split(' ');
+            let club = data[i]["club"];
+            if(last_name === undefined){
+                last_name="";
+            }
+            let [player, created] = await Player.findOrCreate({
+                where: { first_name: first_name, last_name: last_name, club:club },
+            });
+        }
+
+        data = await Disciplinary.findAll();
+        for(var i=0;i<data.length;i++){
+            let name = data[i]["player_name"];
+            let [first_name, last_name] = name.split(' ');
+            let club = data[i]["club"];
+            if(last_name === undefined){
+                last_name="";
+            }
+            let [player, created] = await Player.findOrCreate({
+                where: { first_name: first_name, last_name: last_name, club:club },
+            });
+        }
+
+        data = await Distribution.findAll();
+        for(var i=0;i<data.length;i++){
+            let name = data[i]["player_name"];
+            let [first_name, last_name] = name.split(' ');
+            let club = data[i]["club"];
+            if(last_name === undefined){
+                last_name="";
+            }
+            let [player, created] = await Player.findOrCreate({
+                where: { first_name: first_name, last_name: last_name, club:club },
+            });
+        }
+
+        data = await GoalKeeping.findAll();
+        for(var i=0;i<data.length;i++){
+            let name = data[i]["player_name"];
+            let [first_name, last_name] = name.split(' ');
+            let club = data[i]["club"];
+            if(last_name === undefined){
+                last_name="";
+            }
+            let [player, created] = await Player.findOrCreate({
+                where: { first_name: first_name, last_name: last_name, club:club },
+            });
+        }
+
+        data = await Goals.findAll();
+        for(var i=0;i<data.length;i++){
+            let name = data[i]["player_name"];
+            let [first_name, last_name] = name.split(' ');
+            let club = data[i]["club"];
+            if(last_name === undefined){
+                last_name="";
+            }
+            let [player, created] = await Player.findOrCreate({
+                where: { first_name: first_name, last_name: last_name, club:club },
+            });
+        }
+
+        data = await KeyStats.findAll();
+        for(var i=0;i<data.length;i++){
+            let name = data[i]["player_name"];
+            let [first_name, last_name] = name.split(' ');
+            let club = data[i]["club"];
+            if(last_name === undefined){
+                last_name="";
+            }
+            let [player, created] = await Player.findOrCreate({
+                where: { first_name: first_name, last_name: last_name, club:club },
+            });
+        }
+
+
+    })();
+    res.sendStatus(200);
 });
 
 router.get("/attacking",(req,res,next)=>{
     Attacking.findAll().then(data => res.json(data)).catch(next);
+    // Attacking.drop().then(res.sendStatus(200)).catch(console.log("error in dropping"));
 });
 
-router.post("/attacking",(req,res)=>{
+router.post("/attacking",(req,res,next)=>{
+    // Attacking.destroy({
+    //     truncate: true
+    // }).then(console.log("truncated"))
+    // .catch(console.log("OOPs"));
     const filename = 'E:/Ringover App/Ringover-app/datasets/attacking.csv';
     csvtojson().fromFile(filename).then(source=>{
-        
         for (var i = 0; i < source.length; i++) {
             var player_name = source[i]["player_name"],
             club= source[i]["club"],
@@ -43,7 +145,8 @@ router.post("/attacking",(req,res)=>{
             offsides= source[i]["offsides"],
             dribbles= source[i]["dribbles"],
             match_played= source[i]["match_played"];
-            Attacking.create({
+            Attacking.findOrCreate({
+                where: { 
                 player_name : player_name,
                 club : club,
                 position : position,
@@ -52,14 +155,15 @@ router.post("/attacking",(req,res)=>{
                 offsides : offsides,
                 dribbles : dribbles,
                 match_played : match_played
+                }
             }).then(data => {
                 console.log(data);
             }).catch(error => {
                 console.log(error);
-            })
+            }); 
         }
     })
-    res.sendStatus(200);
+    
 })
 
 
