@@ -14,13 +14,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Distribution.init({
+    playerid: DataTypes.INTEGER,
     player_name: DataTypes.STRING,
     club: DataTypes.STRING,
     position: DataTypes.STRING,
-    pass_accuracy: DataTypes.INTEGER,
+    pass_accuracy: DataTypes.DOUBLE,
     pass_attempted: DataTypes.INTEGER,
     pass_completed: DataTypes.INTEGER,
-    cross_accuracy: DataTypes.INTEGER,
+    cross_accuracy: DataTypes.DOUBLE,
     cross_attempted: DataTypes.INTEGER,
     cross_completed: DataTypes.INTEGER,
     freekicks_taken: DataTypes.INTEGER,

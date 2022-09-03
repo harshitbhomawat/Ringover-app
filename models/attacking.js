@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Attacking.init({
+    playerid: DataTypes.INTEGER,
     player_name: DataTypes.STRING,
     club: DataTypes.STRING,
     position: DataTypes.STRING,
